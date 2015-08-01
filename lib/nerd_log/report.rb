@@ -1,5 +1,6 @@
 module NerdLog
   class Report
+    attr_reader :realm, :guild_name, :region, :http_connection
     def initialize(options)
       @realm           = options.fetch(:realm)
       @guild_name      = options.fetch(:guild_name)
