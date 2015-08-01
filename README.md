@@ -1,6 +1,6 @@
 # NerdLog
 
-TODO: Write a gem description
+Quick and dirty HTTP Wrapper around the WCL API
 
 ## Installation
 
@@ -18,7 +18,18 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Configure:
+
+```rb
+NerdLog.configure {|config| config.api_key = 'API KEY'}
+```
+
+Use:
+```rb
+report = NerdLog::Report.new(realm: 'anubarak', guild_name: 'Serenity')
+
+reports = report.reports
+```
 
 ## Contributing
 
