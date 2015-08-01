@@ -12,7 +12,7 @@ module NerdLog
       reports = []
       fetch.body.each do |report|
         reports << OpenStruct.new(id: report['id'], title: report['title'],
-                                  zone: report['zone'])
+                                  zone: report['zone'], start_time: report['start'])
       end
       reports
     end
