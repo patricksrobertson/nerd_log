@@ -1,6 +1,7 @@
 require "nerd_log/version"
 require "nerd_log/report"
 require "nerd_log/encounter"
+require "nerd_log/fight"
 require "faraday_middleware"
 
 module NerdLog
