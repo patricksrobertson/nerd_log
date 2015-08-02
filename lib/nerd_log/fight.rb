@@ -8,26 +8,27 @@ module NerdLog
       @http_connection = options.fetch(:http_connection, NerdLog.configuration.http_connection)
     end
 
-    def kills
-      @kills ||= fights.select {|f| f.kill == true }
-    end
-
-    def attempts
-      @attempts ||= fights.select {|f| f.kill == false }
-    end
-
     def fights
       unless @fights
-        raw_fights = fetch.body['fights'].select {|f| f['boss'] != 0}
-        @fights = []
+        body = fetch.body
+        raw_fights = body['fights'].select {|f| f['boss'] != 0}
+        friendlies = body['friendlies'].select {|f| f['type'] != 'NPC'}
+        @fights = {}
 
         raw_fights.each do |raw_fight|
-          @fights << OpenStruct.new(id: raw_fight['boss'],
+          @fights[raw_fight['id']] = OpenStruct.new(id: raw_fight['boss'],
                                    kill: raw_fight['kill'],
-                                   difficulty: raw_fight['difficulty'])
+                                   difficulty: raw_fight['difficulty'], players: [])
+        end
+
+        friendlies.each do |player|
+          player['fights'].each do |fight|
+            boss_fight = @fights[fight['id']]
+            boss_fight.players.push(player['name']) if boss_fight
+          end
         end
       end
-      @fights
+      @fights.values
     end
 
     def fetch
